@@ -1,0 +1,32 @@
+
+----> ARCHITECTURE <----
+
+uname -a ou --all --> Prints all the information, except if the CPU is unknow or the platform hardware.
+
+----> PHYSICAL CORES <----
+
+grep "physical id" /proc/cpuinfo | wc -l: This command will find how many times we find the string "physical id, and returns the mount of times that is used.
+
+	Grep --> Search text with defined criteria of Words or Strings;
+	wc -l --> Word Count;
+
+----> VIRTUAL CORES <----
+
+grep processor /proc/cpuinfo | wc -l: This command finds how many times we find the "processor" on the file
+
+----> RAM <----
+
+free --mega: This shows the information about the RAM in Megabytes:
+	free --> Displays the RAM used;
+	--mega --> Displays the values in Megabytes.
+
+free --mega | awk '$1 == "Mem:" {print $3}':
+	| --> This symbol '|' its a pipe, that we transfer the information of the first sentece, to the next one.
+	awk --> This is a tool that process the text, and manipulates the data
+	$1 == "Mem:" {print $3}' --> This checks the first collumn of the line is equal to 'Mem', if it is, prints the third collumn of that line
+
+free --mega | awk '$1 == "Mem:" {printf("(%.2f%%)\n", $3/$2*100)}': Does the same thing of the previous command, but only prints 2 decimals.
+
+----> DISK MEMORY <----
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_use += $3} END {print memory_use}'
