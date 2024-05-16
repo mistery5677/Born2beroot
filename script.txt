@@ -16,11 +16,11 @@ grep processor /proc/cpuinfo | wc -l: This command finds how many times we find 
 
 ----> RAM <----
 
-free --mega: This shows the information about the RAM in Megabytes:
+free --mega: This shows the information about the RAM in Megabytes: To see the RAM usage 
 	free --> Displays the RAM used;
 	--mega --> Displays the values in Megabytes.
 
-free --mega | awk '$1 == "Mem:" {print $3}':
+free --mega | awk '$1 == "Mem:" {print $3}': Show us all the alocatted memory
 	| --> This symbol '|' its a pipe, that we transfer the information of the first sentece, to the next one.
 	awk --> This is a tool that process the text, and manipulates the data
 	$1 == "Mem:" {print $3}' --> This checks the first collumn of the line is equal to 'Mem', if it is, prints the third collumn of that line
@@ -29,4 +29,23 @@ free --mega | awk '$1 == "Mem:" {printf("(%.2f%%)\n", $3/$2*100)}': Does the sam
 
 ----> DISK MEMORY <----
 
-df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_use += $3} END {print memory_use}'
+df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_use += $3} END {print memory_use}': Show the occupied memory.
+	df -m --> Stands for "disk filesystem", is used to get the summary of the use of the disk, and display in Megabytes cause of '-m' flag
+	grep "/dev/" --> Filters the output to include only lines that contain "/dev/"
+	grep -v "/boot" --> Does the same thing, but inverts with the '-v' flag, so we get all lines that doesn't contain "/boot".
+	awk '{memory_use += $3} END {print memory_use}' --> awk will process all the value, and incrementate with the value in the third collumn, and at the 'END' will print the information
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_result += $2} END {printf ("%.0Gb\n"), memory_result/1024}': Show the memory in GB
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{use += $3} {total += $2} END {printf("(%d%%)\n"), use/total*100}': Show the memory in percent
+
+----> CPU USAGE PERCENTAGE <----
+
+vmstat 1 4 | tail -1 | awk '{print $15}': 
+	vmstat 1 4 --> Shows system statistics, allowing us to obtain a general detail of the processes, memory usage, CPU activity, system status, etc, with 1 - 4 seconds.
+	tail -1 --> Produce the outpu on the last line
+	awk '{print $15}' --> Only print the word 15
+
+----> LAST REBOOT <----
+
+who -b | awk '$1 == "system" {print $3 " " $4}': Show the last reboot
