@@ -49,3 +49,43 @@ vmstat 1 4 | tail -1 | awk '{print $15}':
 ----> LAST REBOOT <----
 
 who -b | awk '$1 == "system" {print $3 " " $4}': Show the last reboot
+	who -b --> This command displays the last time that we've bootted;
+	awk '$1 == "system" --> Verify if the first word is system
+	{print $3 " " $4} --> If it is 'system' prints the 'third' and 'fourth' information
+
+----> LVM ACTIVE <----
+
+if [ $(lsblk | grep "lvm" | wc -l) -gt 0 ]; then echo yes; else echo no; fi: It will check if it is a LVM, if it is, will print "yes" or it will print "no"
+	if --> It will do something, if it is true.
+	$(lsblk | grep "lvm" | wc -l) --> It will check, in the information provided by "lsblk", if it finds "lvm", and counts how many times he found the word;
+	-gt 0 --> It means "Greater Than" 0 ... this complemment the 'if' statemment.
+	then echo yes --> Prints 'yes' if the 'if' statemment its true.
+	else echo no --> Prints 'no' if the condition is false.
+
+----> TCP CONNECTIONS <----
+
+ss -ta | grep ESTAB | wc -l: Show the amoount of TCP connections activated on the system
+	ss --> Display information about network connetcion and system sockets
+	-ta --> '-t' Filter for TCP cpnnections | 'a' includes disabled connections 
+	ss -ta --> Show TCP connections, either the ones that are disabled
+	gerp ESTAB --> Display only TCP connections that are on ESTABLISHED mode
+	wc -l --> Line count
+
+----> NUMBER OF USERS <----
+
+users | wc -w: Count the USERS
+
+----> IP ADDRESS & MAC <----
+
+ip link | grep "link/ether" | awk '{print $2}': This will display all MAC addresses of the Network.
+	ip link --> Display and manipulate network devices
+	grep "link/ether" --> Find lines with "link/ether", normally shows informations about MAC address
+	awk '{print $2}' --> Prints the second field of each line.
+
+----> NUMBER OF COMMANDS EXECUTED ON SUDO <----
+
+journalctl _COMM=sudo | grep COMMAND | wc -l: 
+	journalctl --> Its a command to query and display logs from 'journald' (the systemd journal service)
+	_COMM=sudo --> Filters the logs to show, this mean it will display log entries related to the 'sudo'
+	grep COMMAND --> Search for lines containing "COMMAND"
+	wc -l --> Counts the number of lines output by the 'grep COMMAND'
