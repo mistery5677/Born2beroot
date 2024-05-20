@@ -143,3 +143,24 @@ getent group <groupname> --> Show all users on the group;
 sudo ufw status --> Show the UFW stauts, like the ports that are available;
 sudo chage -l <username> --> See the passwd pollicy
 sudo adduser <username> --> Add an user
+
+----> QUESTIONS <----
+
+Whats a Virtual Box?
+Its a compute resource that use software instead of a physical computer to run programs and deploy apps
+
+What is an AppArmor?
+
+
+Difference between aptitude and apt?
+
+
+Difference between SElinux and AppArmor?
+
+
+What is SSH?
+
+
+How to change the HostName?
+Change the name using (sudo vi /etc/hostname), and reboot the VM.
+
