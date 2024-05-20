@@ -89,3 +89,57 @@ journalctl _COMM=sudo | grep COMMAND | wc -l:
 	_COMM=sudo --> Filters the logs to show, this mean it will display log entries related to the 'sudo'
 	grep COMMAND --> Search for lines containing "COMMAND"
 	wc -l --> Counts the number of lines output by the 'grep COMMAND'
+
+----> STEPS <----
+
+1 - Create the virtual machine;
+2 - Create the admin account (miafonso2);
+3 - Create the user (miafonso);
+4 - Create the encrypted phrase to access the VM;
+5 - Create the partissions
+6 - Install 'sudo'
+7 - Create the group 'user42' (sudo addgroup user42);
+8 - And the user (miafonso) to the 'sudo' and 'user42' group (sudo adduser miafonso user42/sudo);
+9 - Install 'ssh' services (sudo apt intall openssh-server);
+10 - Use (nano /etc/ssh/sshd_config) to change '#Port 22' to 'Port 4242', and change '#PermitRootLogin prohibit-password' to 'PermitRootLogin no'
+11 - Install UFW (Uncomplicated FireWall) (sudo apt install ufw);
+	11.1 - Enable UFW; (sudo ufw enable)
+	11.2 - Allow port 4242; (sudo ufw allow 4242)
+
+12 - Set up the sudo polices (touch /etc/sudoers.d/sudo_config) (mkdir /var/log/sudo)
+	12.1 - Creates the directory for each command needs to be logged (mkdir /var/log/sudo)
+	12.3 -  Edit the file to put all commands;
+		12.3.1 - Defaults  passwd_tries=3 --> Total tries for 'sudo password';
+		12.3.2 - Defaults  badpass_message="Mensaje de error personalizado" --> The massage when password is wrong;
+		12.3.3 - Defaults  logfile="/var/log/sudo/sudo_config" --> Path where will the sudo logs will be stored;
+		12.3.4 - Defaults  log_input, log_output --> What will be logged;
+		12.3.5 - Defaults  iolog_dir="/var/log/sudo" --> what will be logged;
+		12.3.6 - Defaults  requiretty --> The terminal to sign in;
+		12.3.7 - Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin" --> The folder path that will be executed of sudo;
+
+13 - Set up the password Policy
+	13.1 - Enter in '/etc/login.defs', and change 'PASS_MAX_DAYS 99999 -> PASS_MAX_DAYS 30' and 'PASS_MIN_DAYS 0 -> PASS_MIN_DAYS 2' 
+		13.1.1 PASS_MAX_DAYS --> Max days till password expiration;
+		13.1.2 PASS_MIN_DAYS --> Min days till password change;
+		13.1.3 PASS_WARN_AGE --> Days till password warning.
+	13.2 - Install 'libpam-pwquality' (sudo apt install libpam-pwquality), package that checks the password security.
+	13.3 - Create the password policys on (nano /etc/pam.d/common-password)
+		13.3.1 minlen=10 --> The minimun characters a password must contain
+		13.3.1 ucredit=-1 --> The password needs to contain at least a capital letter;
+		13.3.1 dcredit=-1 -->  The pass needs to contain a a digit;
+		13.3.1 lcredit=-1 -->  The pass needs to contain a lowercase letter;
+		13.3.1 maxrepeat=3 --> The pass can't have the same character repited three contiusly times
+		13.3.1 reject_username --> The pass cant conain the usern inside itself
+		13.3.1 difok=7 --> The pass it have to contain at least seven diferent characters from the last password ussed
+		13.3.1 enforce_for_root --> We will implement this pass policy to root.
+
+14 - Connect VM to the real machine.
+
+
+----> COMMANDS <----
+
+sudo service ssh status --> Show how is the state of SSH;
+getent group <groupname> --> Show all users on the group;
+sudo ufw status --> Show the UFW stauts, like the ports that are available;
+sudo chage -l <username> --> See the passwd pollicy
+sudo adduser <username> --> Add an user
