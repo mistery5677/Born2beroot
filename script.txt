@@ -93,7 +93,7 @@ journalctl _COMM=sudo | grep COMMAND | wc -l:
 ----> STEPS <----
 
 1 - Create the virtual machine;
-2 - Create the admin account (miafonso2);
+2 - Create the admin account (miafonso42);
 3 - Create the user (miafonso);
 4 - Create the encrypted phrase to access the VM;
 5 - Create the partissions
