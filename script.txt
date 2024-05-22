@@ -146,21 +146,23 @@ sudo adduser <username> --> Add an user
 
 ----> QUESTIONS <----
 
-Whats a Virtual Box?
-Its a compute resource that use software instead of a physical computer to run programs and deploy apps
+Preliminary tests
+--> Git repo cloned successfully.
 
-What is an AppArmor?
+General instructions
+--> Git repo contains a signature.txt file.
+--> Check the signature against the students “.vdi” file, make sure it’s identical. 
+--> Clone VM || create a snapshot && open VM.
 
-
-Difference between aptitude and apt?
-
-
-Difference between SElinux and AppArmor?
-
-
-What is SSH?
-
-
-How to change the HostName?
-Change the name using (sudo vi /etc/hostname), and reboot the VM.
+Mandatory Part (Questions for the student)
+--> How does a virtual machine work and what is its purpose?
+	The virtual machine uses software instead of physical computer, to run programs or apps. Its purpose its to test programs more safier.
+	
+--> The basic differences between CentOS and Debian?
+	
+--> Their choice of operating system?
+--> If CentOS: what SELinux and DNF are.
+--> If Debian: the difference between aptitude, apt and what APPArmor is.
+--> During the defense, a script must display all information every 10 minutes. Its operation will be checked in detail later.
+--> All explanations are satisfactory (else evaluation stops here).
 
